@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <img class='lol' src="image1.jpg" alt="haha">
+    <img class='lol' src="image2.jpg" alt="haha">
+    <img class='lol' src="image3.jpg" alt="haha">
+    <img class='lol' src="image4.jpg" alt="haha">
+
+    <img id='gif' src="" alt="">
+    <img id='danger' src="" alt="">
+
+
+    <script src="gif.js"></script>
+
+
+
+
+    <!-- <script>
+
+        // gifjs script
+        // safe
+        // follow the doc to tweak
+
+        var gif = new GIF({
+            workers: 2,
+            quality: 5
+        })
+
+        document.querySelectorAll('.lol').forEach(image => gif.addFrame(image, { delay: 200, copy: false }))
+
+        gif.on('finished', function (blob) {
+            let url = URL.createObjectURL(blob)
+            document.querySelector('#gif').src = url
+        })
+
+        gif.render()
+
+    </script> -->
+
+
+    <script>
+
+        // sajjad's script
+        // not safe
+        // browser heavy
+        // leaks memory
+
+        let imageArr = [...document.querySelectorAll('.lol')];
+        let idx = 0;
+
+        // if there was a blob arry
+        // let urlArr = []
+        // blobArr.forEach(blob => urlArr.push(URL.createObjectURL(blob)))
+
+
+        setInterval(() => {
+            document.querySelector('#danger').src = imageArr[idx].src;  // urlArr[idx] - in case of blob arr
+            if (idx === imageArr.length - 1) {
+                idx = 0
+            } else {
+                idx++
+            }
+        }, 200)
+
+    </script>
+</body>
+
+</html>

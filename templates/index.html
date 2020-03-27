@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/index.css") }}">
+    <title>Document</title>
+</head>
+
+<body>
+<script src="{{ url_for("static", filename="js/gif.js") }}"></script>
+<img id='gif' src="" alt="">
+<img id='danger' src="" alt="">
+
+<script>
+    function hexToBase64(str) {
+        return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+    }
+</script>
+
+{% if not objs %}
+    <img class='lol' src="{{ url_for("static", filename="images/image1.jpg") }}" alt="haha">
+    <img class='lol' src="{{ url_for("static", filename="images/image2.jpg") }}" alt="haha">
+    <img class='lol' src="{{ url_for("static", filename="images/image3.jpg") }}" alt="haha">
+    <img class='lol' src="{{ url_for("static", filename="images/image4.jpg") }}" alt="haha">
+    <script>
+        let imageArr = [...document.querySelectorAll('.lol')];
+        let idx = 0;
+
+        // if there was a blob array
+        // let urlArr = []
+        // blobArr.forEach(blob => urlArr.push(URL.createObjectURL(blob)))
+
+
+        setInterval(() => {
+            document.querySelector('#danger').src = imageArr[idx].src;  // urlArr[idx] - in case of blob arr
+            if (idx === imageArr.length - 1) {
+                idx = 0
+            } else {
+                idx++
+            }
+        }, 200)
+    </script>
+{% else %}
+    <script>
+
+        function blobCreator(binaryString, mime) {
+            var l, d, array;
+            d = binaryString;
+            l = d.length;
+            array = new Uint8Array(l);
+            for (var i = 0; i < l; i++) {
+                array[i] = d.charCodeAt(i);
+            }
+            var b = new Blob([array], {type: "image/" + mime});
+            return b;
+        }
+
+        let urlArr = [];
+        {% for ob in objs %}
+            {#console.log('{{ ob.image }}');#}
+            {#blob = new Blob(['{{ ob.image }}'], {type: 'image/{{ ob.mimetype }}'});
+            console.log(blob);#}
+            urlArr.push("{{ url_for("static", filename="images/tmp/" + ob) }}");
+        {% endfor %}
+        let idx = 0;
+        setInterval(() => {
+            document.querySelector('#danger').src = urlArr[idx];  // urlArr[idx] - in case of blob arr
+            if (idx === urlArr.length - 1) {
+                idx = 0
+            } else {
+                idx++
+            }
+        }, 200)
+    </script>
+{% endif %}
+
+
+
+
+
+
+{#<script>
+
+    // sajjad's script
+    // not safe
+    // browser heavy
+    // leaks memory
+
+    #}{#let imageArr = [...document.querySelectorAll('.lol')];#}{#
+    idx = 0;
+
+    // if there was a blob array
+    // let urlArr = []
+    // blobArr.forEach(blob => urlArr.push(URL.createObjectURL(blob)))
+
+
+    setInterval(() => {
+        document.querySelector('#danger').src = urlArr[idx].src;  // urlArr[idx] - in case of blob arr
+        if (idx === imageArr.length - 1) {
+            idx = 0
+        } else {
+            idx++
+        }
+    }, 200)
+
+</script>#}
+</body>
+
+</html>

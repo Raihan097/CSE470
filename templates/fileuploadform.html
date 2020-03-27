@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File upload</title>
+      <link href="{{ url_for('static',filename = 'css/fileuploadform.css') }}" rel="stylesheet">
+
+</head>
+<body>
+<form action="{{ url_for('save_video_and_process') }}" method="POST" enctype="multipart/form-data" id="file">
+    <input type = "file" id="file" name="file">
+    <input type="submit" value="submit">
+    </form>
+   <script src="{{ url_for('static',filename='fileuploadform.js') }}"></script>
+
+
+</body>
+</html>
